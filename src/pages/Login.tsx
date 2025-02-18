@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, TextField, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, Button, TextField, Typography, FormControlLabel, Checkbox, IconButton } from "@mui/material";
 import apiClient from "../axiosConfig";
 import "./Login.css";
 import { useNavigate, Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; // Left Arrow Icon
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -83,6 +84,18 @@ const Login: React.FC = () => {
           />
         </Box>
       </Box>
+         {/* Back to landing page */}
+         <IconButton
+                    onClick={() => navigate('/')}
+                    sx={{
+                        position: "absolute",
+                        bottom: "20px",
+                        left: "20px",
+                        color: "white",
+                    }}
+                >
+                    <FaArrowLeft />
+                </IconButton>
     </Box>
   );
 };
