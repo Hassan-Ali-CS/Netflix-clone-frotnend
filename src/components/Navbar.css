@@ -1,0 +1,52 @@
+/* Search Bar */
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+.search-bar {
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+  width: 200px;
+}
+
+/* Search Dropdown */
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #222;
+  color: white;
+  padding: 5px 0;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Individual Search Result */
+.search-result {
+  display: block;
+  padding: 10px;
+  color: red ;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+/* Fix Navbar to the top */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10; /* Ensure it's on top of other content */
+}
+.search-result:hover {
+  background: #444;
+}
+
+.navbar {
+  background-color: red !important;
+  margin-top: 2px;
+}

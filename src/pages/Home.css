@@ -1,0 +1,34 @@
+/*full-page background*/
+.landing-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /*Full viewport height*/
+    background-image: url('https://netflixcloneprojectat.s3.eu-north-1.amazonaws.com/images/Netflix_LinkdinHeader_N_Texture_5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*Centered box styling*/
+.landing-box {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/*Title Styling*/
+.landing-title {
+    margin-bottom: 1rem;
+}
+
+/*Button Spacing*/
+.landing-button {
+    margin: 1.5rem !important;
+    
+}
+
+
