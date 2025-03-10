@@ -1,18 +1,8 @@
 import React, { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  IconButton,
-  Button,
-  TextField,
-  Paper,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, IconButton, Button, TextField, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FaFilm, FaSearch, FaHeart } from "react-icons/fa";
 import axios from "axios";
-import "./Navbar.css";
 import MovieModal from "../components/MovieModal";
 
 const Navbar: React.FC<any> = ({ onMovieClick }) => {
@@ -21,10 +11,10 @@ const Navbar: React.FC<any> = ({ onMovieClick }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Toggle search bar visibility
+  
   const toggleSearch = () => setSearchOpen(!searchOpen);
 
-  // Handle search input
+  
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchQuery(query);
@@ -43,34 +33,39 @@ const Navbar: React.FC<any> = ({ onMovieClick }) => {
     }
   };
 
-  // Handle movie click from search results
+  
   const handleMovieClickFromSearch = (movie: any) => {
-    onMovieClick(movie); // Trigger the function passed from Movies.tsx
+    onMovieClick(movie); 
     setModalOpen(true);
   };
 
   return (
-    <AppBar position="static" className="navbar">
+    <AppBar position="static" sx={{ backgroundColor: "red", zIndex: 10 }}>
       <Toolbar>
-        {/* Left Side: Logo */}
+        
         <Typography
           variant="h6"
           component={Link}
           to="/"
-          className="navbar-logo"
-          sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}
+          sx={{
+            flexGrow: 1,
+            textDecoration: "none",
+            color: "inherit",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
-          <FaFilm className="navbar-icon" />
+          <FaFilm style={{ marginRight: 1 }} />
           Netflix
         </Typography>
 
-        {/* Middle: Navigation Links */}
-        <Box className="navbar-links">
+        
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             component={Link}
             to="/movies"
             color="inherit"
-            className="navbar-link"
+            sx={{ marginRight: 2 }}
             startIcon={<FaFilm />}
           >
             Movies
@@ -79,40 +74,51 @@ const Navbar: React.FC<any> = ({ onMovieClick }) => {
             component={Link}
             to="/favouritemovies"
             color="inherit"
-            className="navbar-link"
+            sx={{ marginRight: 2 }}
             startIcon={<FaHeart />}
           >
             My List
           </Button>
         </Box>
 
-        {/* Search Icon */}
-        <IconButton color="inherit" onClick={toggleSearch} className="search-icon">
+        
+        <IconButton color="inherit" onClick={toggleSearch}>
           <FaSearch />
         </IconButton>
 
-        {/* Search Bar */}
+        
         {searchOpen && (
-          <Box className="search-container">
+          <Box sx={{ position: "relative", display: "inline-block" }}>
             <TextField
-              className="search-bar"
               variant="outlined"
               placeholder="Search movies..."
               size="small"
               value={searchQuery}
               onChange={handleSearch}
+              sx={{
+                backgroundColor: "white",
+                borderRadius: 1,
+                padding: 1,
+                width: 200,
+              }}
               autoFocus
             />
 
-            {/* Search Results Dropdown */}
+            
             {searchResults.length > 0 && (
-              <Paper className="search-dropdown">
+              <Paper sx={{ position: "absolute", top: "100%", left: 0, width: "100%", background: "#222", color: "white", padding: "5px 0", borderRadius: 1, maxHeight: 200, overflowY: "auto", zIndex: 1000 }}>
                 {searchResults.map((movie) => (
                   <Link
                     key={movie.id}
                     to="#"
-                    className="search-result"
-                    onClick={() => handleMovieClickFromSearch(movie)} // Pass movie to onMovieClick
+                    onClick={() => handleMovieClickFromSearch(movie)}
+                    style={{
+                      display: "block",
+                      padding: "10px",
+                      color: "red",
+                      textDecoration: "none",
+                      transition: "background 0.3s",
+                    }}
                   >
                     {movie.title}
                   </Link>

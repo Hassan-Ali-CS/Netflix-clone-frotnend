@@ -1,29 +1,28 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography, FormControlLabel, Checkbox, IconButton } from "@mui/material";
 import apiClient from "../axiosConfig";
-import "./Login.css";
 import { useNavigate, Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa"; // Left Arrow Icon
+import { FaArrowLeft } from "react-icons/fa"; 
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false); // Checkbox to determine admin login
+  const [isAdmin, setIsAdmin] = useState<boolean>(false); 
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setError(null); // Clear any previous error message
+    setError(null); 
     try {
       if (isAdmin) {
-        // Attempt Admin Login
+        
         const adminResponse = await apiClient.post("admin/login", { email, password });
         console.log("Admin Login Successful", adminResponse.data);
-        // Save admin token and navigate to AdminPanel
+        
         localStorage.setItem("token", adminResponse.data.token);
-        navigate("/admin"); // Redirect to admin panel
+        navigate("/admin"); 
       } else {
-        // Attempt User Login
+
         const userResponse = await apiClient.post("user/login", { email, password });
         console.log("User Login Successful", userResponse.data);
         console.log("User Login Response", userResponse);
@@ -31,8 +30,8 @@ const Login: React.FC = () => {
           console.error("Error: userId is missing in response");
           setError("Login failed: No userId received from server.");
           return;
-      }
-        // Save userId and token and navigate to Movies
+        }
+        
         localStorage.setItem("token", userResponse.data.token);
         localStorage.setItem("userId", String(userResponse.data.userId));
         navigate("/movies");
@@ -44,12 +43,34 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Box className="login-page">
-      <Box className="login-box">
-        <Typography variant="h4" className="login-title" gutterBottom>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundImage:
+          "url('https://netflixcloneprojectat.s3.eu-north-1.amazonaws.com/images/Netflix_LinkdinHeader_N_Texture_5.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Box
+        sx={{
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          padding: "2rem",
+          borderRadius: "10px",
+          boxShadow: "0 4px 15px rgba(194, 83, 83, 0.2)",
+          width: "100%",
+          maxWidth: "400px",
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: "1rem", color: "aliceblue" }} gutterBottom>
           LOGIN
         </Typography>
-        <Typography className="login-para" gutterBottom>
+        <Typography sx={{ marginBottom: "1rem", color: "aliceblue" }} gutterBottom>
           Please Login to continue
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
@@ -57,7 +78,10 @@ const Login: React.FC = () => {
           label="Email"
           variant="outlined"
           fullWidth
-          className="login-input"
+          sx={{
+            marginBottom: "1rem",
+            backgroundColor: "aliceblue",
+          }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
@@ -66,36 +90,49 @@ const Login: React.FC = () => {
           label="Password"
           variant="outlined"
           fullWidth
-          className="login-input"
+          sx={{
+            marginBottom: "1rem",
+            backgroundColor: "aliceblue",
+          }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
         />
-        <Button variant="contained" color="primary" fullWidth className="login-button" onClick={handleLogin}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ marginTop: "2rem" }}
+          onClick={handleLogin}
+        >
           LOGIN
         </Button>
-        <Typography className="forgot-password">
-        <Link to="/forgot-password">Forgot Password?</Link>
+        <Typography sx={{ marginTop: "1rem", color: "white" }}>
+          <Link to="/forgot-password" style={{ color: "aliceblue" }}>
+            Forgot Password?
+          </Link>
         </Typography>
-        <Box className="login-footer">
+        <Box sx={{ marginTop: "1rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <FormControlLabel
             control={<Checkbox checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} />}
             label="Admin"
+            sx={{ color: "white" }}
           />
         </Box>
       </Box>
-         {/* Back to landing page */}
-         <IconButton
-                    onClick={() => navigate('/')}
-                    sx={{
-                        position: "absolute",
-                        bottom: "20px",
-                        left: "20px",
-                        color: "white",
-                    }}
-                >
-                    <FaArrowLeft />
-                </IconButton>
+
+      
+      <IconButton
+        onClick={() => navigate("/")}
+        sx={{
+          position: "absolute",
+          bottom: "20px",
+          left: "20px",
+          color: "white",
+        }}
+      >
+        <FaArrowLeft />
+      </IconButton>
     </Box>
   );
 };

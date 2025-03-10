@@ -1,16 +1,33 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import AdminNavbar from "../components/AdminNavbar";
 import Footer from "../components/Footer";
-import "./AdminPanel.css";
 
 const AdminPanel: React.FC = () => {
   return (
-    <Box className="admin-panel">
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <AdminNavbar />
-      <Box className="admin-content">
-        <h1>Welcome to the Admin Panel</h1>
-        <p>Select from the Navbar to perform actions.</p>
+      <Box
+        sx={{
+          flex: 1,
+          padding: "2rem",
+          backgroundColor: "#e44444",
+          textAlign: "center",
+          paddingTop: "12rem",
+        }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: "1rem" }}>
+          Welcome to the Admin Panel
+        </Typography>
+        <Typography>
+          Select from the Navbar to perform actions.
+        </Typography>
       </Box>
       <Footer />
     </Box>

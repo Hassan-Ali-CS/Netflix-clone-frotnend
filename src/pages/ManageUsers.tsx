@@ -68,7 +68,7 @@ const ManageUsers: React.FC = () => {
                                             color="secondary"
                                             onClick={() => handleBlockUser(user.id)}
                                         >
-                                            Block
+                                            Delete
                                         </Button>
                                     </TableCell>
                                 </TableRow>

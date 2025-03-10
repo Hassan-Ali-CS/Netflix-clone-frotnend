@@ -1,7 +1,6 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./AdminNavbar.css";
 
 const AdminNavbar: React.FC = () => {
   const handleLogout = () => {
@@ -10,18 +9,33 @@ const AdminNavbar: React.FC = () => {
   };
 
   return (
-    <AppBar position="static" className="admin-navbar">
+    <AppBar position="static" sx={{ backgroundColor: "#333", color: "red" }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Admin Panel
         </Typography>
-        <Button color="inherit" component={Link} to="/admin/users">
+        <Button
+          color="inherit"
+          component={Link}
+          to="/admin/users"
+          sx={{ marginRight: "1rem" }}
+        >
           Manage Users
         </Button>
-        <Button color="inherit" component={Link} to="/admin/subscriptions">
+        <Button
+          color="inherit"
+          component={Link}
+          to="/admin/subscriptions"
+          sx={{ marginRight: "1rem" }}
+        >
           Manage Subscriptions
         </Button>
-        <Button color="inherit" component={Link} to="/admin/movies">
+        <Button
+          color="inherit"
+          component={Link}
+          to="/admin/movies"
+          sx={{ marginRight: "1rem" }}
+        >
           Manage Movies
         </Button>
         <Button color="inherit" onClick={handleLogout}>

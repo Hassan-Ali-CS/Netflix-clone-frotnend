@@ -47,11 +47,7 @@ const ManageMovies: React.FC = () => {
   const awsAccessKey = process.env.REACT_APP_AWS_ACCESS_KEY_ID!;
   const awsSecretKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY!;
   
-  // const s3 = new AWS.S3({
-  //   accessKeyId: awsAccessKey,
-  //   secretAccessKey: awsSecretKey,
-  //   region: process.env.REACT_APP_AWS_REGION,
-  // });
+
 
   useEffect(() => {
     fetchMovies();
@@ -69,6 +65,19 @@ const ManageMovies: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "image" | "video") => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      
+      if (type === "image" && file.size > 5 * 1024 * 1024) { // 5MB
+        setSnackbarMessage("Image file size exceeds 5MB");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+        return;
+      } else if (type === "video" && file.size > 100 * 1024 * 1024) { // 100MB
+        setSnackbarMessage("Video file size exceeds 100MB");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+        return;
+      }
+
       if (type === "image") {
         setSelectedFile(file);
         setImagePreview(URL.createObjectURL(file));
@@ -81,13 +90,6 @@ const ManageMovies: React.FC = () => {
 
   const uploadFile = async (file: File): Promise<string> => {
     try {
-      // const uploadParams = {
-      //   Bucket: awsS3Bucket,
-      //   Key: `${Date.now()}-${file.name}`,
-      //   Body: file,
-      //   ContentType: file.type,
-      // };
-
       const { Location } = await uploadFileToS3(file)
       console.log(Location,'=====')
       return Location;

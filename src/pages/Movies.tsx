@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { IconButton } from '@mui/material';
+import { IconButton, Box, Typography, Grid, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Carousel from "../components/Carousel"; // Import the Carousel component
-import MovieCard from "../components/MovieCard"; // Import the MovieCard component
-import MovieModal from "../components/MovieModal"; // Import the MovieModal component
+import Carousel from "../components/Carousel"; 
+import MovieCard from "../components/MovieCard"; 
+import MovieModal from "../components/MovieModal"; 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import apiClient from "../axiosConfig"; // Import API client to fetch movies
-import './Movies.css'; 
+import apiClient from "../axiosConfig"; 
 
 const Movies: React.FC = () => {
-  const [movies, setMovies] = useState<any[]>([]); // To store the list of movies
-  const [latestMovies, setLatestMovies] = useState<any[]>([]); // To store the last 3 movies
-  const [userList, setUserList] = useState<any[]>([]); // User's favorite movies
-  const [selectedMovie, setSelectedMovie] = useState<any | null>(null); // To store the selected movie for modal
-  const [modalOpen, setModalOpen] = useState(false); // To control the modal open/close
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false); // State to handle video play
-  const [videoUrl, setVideoUrl] = useState<string>(""); // Store the video URL to be played
-  const userId = Number(localStorage.getItem("userId")); // Get user ID from local storage
+  const [movies, setMovies] = useState<any[]>([]); 
+  const [latestMovies, setLatestMovies] = useState<any[]>([]); 
+  const [userList, setUserList] = useState<any[]>([]); 
+  const [selectedMovie, setSelectedMovie] = useState<any | null>(null); 
+  const [modalOpen, setModalOpen] = useState(false); 
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false); 
+  const [videoUrl, setVideoUrl] = useState<string>(""); 
+  const userId = Number(localStorage.getItem("userId")); 
 
   useEffect(() => {
     if (!userId) {
@@ -29,7 +28,7 @@ const Movies: React.FC = () => {
       try {
         const response = await apiClient.get("/movie");
         setMovies(response.data);
-        setLatestMovies(response.data.slice(0, 3)); // Get the last 3 movies
+        setLatestMovies(response.data.slice(0, 3)); 
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -50,79 +49,93 @@ const Movies: React.FC = () => {
 
   const handleMovieClick = (movie: any) => {
     setSelectedMovie(movie);
-    setModalOpen(true); // Open the movie modal
+    setModalOpen(true); 
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setSelectedMovie(null); // Reset the selected movie when closing the modal
-    setIsVideoPlaying(false); // Stop the video when modal is closed
+    setSelectedMovie(null); 
+    setIsVideoPlaying(false); 
   };
 
   const handlePlay = (videoUrl: string) => {
-    setVideoUrl(videoUrl); // Set the video URL
-    setIsVideoPlaying(true); // Display the video div
-    setModalOpen(false); // Close the movie modal when the video is playing
+    setVideoUrl(videoUrl); 
+    setIsVideoPlaying(true); 
+    setModalOpen(false); 
   };
 
   const handleCloseVideo = () => {
-    setIsVideoPlaying(false); // Hide the video div
-    setVideoUrl(""); // Clear the video URL
-    setModalOpen(true); // Optionally, reopen the modal after video is closed
+    setIsVideoPlaying(false); 
+    setVideoUrl(""); 
+    setModalOpen(true); 
   };
 
   return (
-    <div className="movies-page">
+    <Box sx={{ backgroundColor: "#121212", color: "white", minHeight: "100vh" }}>
       <Navbar />
 
-      {/* Carousel Component */}
+      
       <Carousel />
 
-      {/* Empty div to provide space between Carousel and Movie Cards */}
-      <div style={{ height: "30px" }}></div>
+      
+      <Box sx={{ height: "30px" }}></Box>
 
-      {/* MovieCard Component: Displays a list of movies */}
-      <div className="movies-container">
-        <h2>All Movies</h2>
-        <div className="movies-grid">
-          {movies.length && movies.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              onClick={() => handleMovieClick(movie)} // Open the modal on click
-            />
-          ))}
-        </div>
-      </div>
+      
+      <Box sx={{ margin: "20px" }}>
+        <Typography variant="h4" sx={{ textAlign: "center", marginBottom: "20px" }}>
+          All Movies
+        </Typography>
+        <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+          {movies.length &&
+            movies.map((movie) => (
+              <Grid item key={movie.id}>
+                <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
+              </Grid>
+            ))}
+        </Grid>
+      </Box>
 
-      {/* Movie Modal Component */}
+      
       {selectedMovie && (
         <MovieModal
           open={modalOpen}
           onClose={handleCloseModal}
           movie={selectedMovie}
           userId={userId}
-          onPlay={handlePlay} // Pass the video play handler
+          onPlay={handlePlay} 
         />
       )}
 
-      {/* Video Player Div */}
+      
       {isVideoPlaying && videoUrl && (
-        <div className="video-container">
-          <div className="video-close-btn">
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <Box sx={{ position: "absolute", top: "10px", right: "10px", zIndex: 2000 }}>
             <IconButton onClick={handleCloseVideo} sx={{ color: "white" }}>
               <CloseIcon fontSize="large" />
             </IconButton>
-          </div>
+          </Box>
           <video width="100%" height="100%" controls autoPlay>
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-        </div>
+        </Box>
       )}
 
       <Footer />
-    </div>
+    </Box>
   );
 };
 

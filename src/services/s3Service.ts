@@ -1,13 +1,7 @@
 import { S3Client, PutObjectCommand, ObjectCannedACL } from "@aws-sdk/client-s3";
 import * as AWS from "aws-sdk";
 
-// const s3 = new S3Client({
-//   region: process.env.REACT_APP_AWS_REGION!,
-//   credentials: {
-//     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID!,
-//     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY!,
-//   },
-// });
+
 const awsS3Bucket: string = process.env.REACT_APP_AWS_BUCKET_NAME || "";
 const awsAccessKey = process.env.REACT_APP_AWS_ACCESS_KEY_ID!;
 const awsSecretKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY!;

@@ -13,11 +13,48 @@ import ManageUsers from "./pages/ManageUsers";
 import ManageSubscriptions from "./pages/ManageSubscriptions";
 import ManageMovies from "./pages/ManageMovies";
 import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
-import "./styles/global.css";
 
 const App: React.FC = () => {
+  const appStyles: React.CSSProperties = {
+    textAlign: "center",
+  };
+
+  const headerStyles: React.CSSProperties = {
+    backgroundColor: "#282c34",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "calc(10px + 2vmin)",
+    color: "white",
+  };
+
+  const logoStyles: React.CSSProperties = {
+    height: "40vmin",
+    pointerEvents: "none",
+    animation: "App-logo-spin infinite 20s linear",
+  };
+
+  const appLinkStyles: React.CSSProperties = {
+    color: "#61dafb",
+    textDecoration: "none",
+  };
+
+  const appLogoSpin = `@keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }`;
+
   return (
+    <div style={appStyles}>
+      <style>{appLogoSpin}</style>
     <Router>
       <Routes>
         <Route path="/admin" element={<AdminRoute />}>
@@ -31,12 +68,15 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/favouritemovies" element={<FavouriteMoviesPage/>} />
-        <Route path="/subscriptions" element={<Subscription />} />
-        
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/favouritemovies" element={<FavouriteMoviesPage/>} />
+          <Route path="/subscriptions" element={<Subscription />} />
+        </Route>
       </Routes>
     </Router>
+    </div>
   );
 };
 

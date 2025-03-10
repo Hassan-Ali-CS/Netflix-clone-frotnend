@@ -10,7 +10,7 @@ const Subscription: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
 
-  // Fetch subscriptions from the backend
+  
   useEffect(() => {
     axios
       .get("http://localhost:4000/subscriptions")
@@ -18,12 +18,12 @@ const Subscription: React.FC = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  // Handle Subscription Selection
+  
   const handleSelectSubscription = (id: number) => {
     setSelectedSubscription(id);
   };
 
-  // Handle Next Button Click
+  
   const handleNext = () => {
     if (!selectedSubscription) {
       setSnackbarMessage("Please select a subscription!");
@@ -44,7 +44,7 @@ const Subscription: React.FC = () => {
         setSnackbarMessage("Subscription added successfully!");
         setSnackbarOpen(true);
         setTimeout(() => {
-          navigate("/movies"); // Redirect to movies page
+          navigate("/movies"); 
         }, 1500);
       })
       .catch((err) => {
@@ -93,7 +93,7 @@ const Subscription: React.FC = () => {
         </Grid>
       </Box>
 
-      {/* Fixed Next Button */}
+      
       <Box
         sx={{
           position: "fixed",
@@ -119,7 +119,7 @@ const Subscription: React.FC = () => {
         </Button>
       </Box>
 
-      {/* Snackbar for Notifications */}
+      
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

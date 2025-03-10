@@ -4,7 +4,7 @@ import apiClient from "../axiosConfig";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword: React.FC = () => {
-  const { token } = useParams<{ token: string }>(); //Extract token from the URL params
+  const { token } = useParams<{ token: string }>(); 
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -21,10 +21,10 @@ const ResetPassword: React.FC = () => {
     }
 
     try {
-          //Sends a POST request to the backend to reset the password
+          
         const response = await apiClient.post(`user/reset-password/${token}`, { password });
-        setMessage(response.data.message);  //Displays success message
-        setTimeout(() => navigate("/login"), 2000); // Redirect after success
+        setMessage(response.data.message);  
+        setTimeout(() => navigate("/login"), 2000); 
     } catch (err: any) {
         setError(err.response?.data?.message || "Something went wrong!");
     }
